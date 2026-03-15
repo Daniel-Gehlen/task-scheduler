@@ -11,8 +11,13 @@ export default class TaskController {
     this.view.bindDeleteTask(this.handleDeleteTask.bind(this));
     this.view.bindEditTask(this.handleEditTask.bind(this));
     this.view.bindRemindTask(this.handleRemindTask.bind(this));
+    this.view.bindSearch(this.handleSearch.bind(this));
+    this.view.bindThemeToggle(this.handleThemeToggle.bind(this));
+    this.view.bindToggleForm();
 
     // Inicialização
+    this.theme = localStorage.getItem('theme') || 'light';
+    this.view.applyTheme(this.theme);
     this.view.renderTasks(this.model.tasks);
     this.view.setupDragAndDrop(this.handleDrop.bind(this));
   }
@@ -54,20 +59,57 @@ export default class TaskController {
     this.view.renderTasks(this.model.tasks);
   }
 
-  handleDeleteTask(id) {
-    this.model.deleteTask(id);
-    this.view.renderTasks(this.model.tasks);
-  }
-
   handleEditTask(id) {
     const task = this.model.tasks.find((t) => t.id === id);
     if (task) {
-      document.getElementById("task-title").value = task.title;
-      document.getElementById("task-description").value =
-        task.description || "";
-      document.getElementById("task-due-date").value = task.dueDate;
-      document.getElementById("task-status").value = task.status;
+      const content = `
+        <h2>Editar Tarefa</h2>
+        <div class="form-group">
+          <label>Título:</label>
+          <input type="text" id="edit-title" value="${task.title}">
+        </div>
+        <div class="form-group">
+          <label>Descrição:</label>
+          <textarea id="edit-description" rows="3">${task.description || ''}</textarea>
+        </div>
+        <div class="form-actions">
+          <button id="update-task-btn" class="add-btn">Atualizar</button>
+        </div>
+      `;
+      this.view.showModal(content);
+      
+      document.getElementById('update-task-btn').onclick = () => {
+        const title = document.getElementById('edit-title').value.trim();
+        const description = document.getElementById('edit-description').value.trim();
+        if (title) {
+          this.model.updateTask(id, { title, description });
+          this.view.renderTasks(this.model.tasks);
+          this.view.closeModal();
+        } else {
+          alert('O título não pode estar vazio!');
+        }
+      };
+    }
+  }
+
+  handleSearch(query) {
+    const filteredTasks = this.model.tasks.filter(task => 
+      task.title.toLowerCase().includes(query) || 
+      task.description.toLowerCase().includes(query)
+    );
+    this.view.renderTasks(filteredTasks);
+  }
+
+  handleThemeToggle() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', this.theme);
+    this.view.applyTheme(this.theme);
+  }
+
+  handleDeleteTask(id) {
+    if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
       this.model.deleteTask(id);
+      this.view.renderTasks(this.model.tasks);
     }
   }
 
