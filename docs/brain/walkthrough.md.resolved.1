@@ -1,0 +1,51 @@
+# Walkthrough - Fase 1: Preparação
+
+A primeira fase de estruturação do ambiente foi concluída com sucesso. O projeto agora possui uma base sólida para desenvolvimento modular e automatizado.
+
+## Alterações Realizadas
+
+### Configuração de Ambiente
+- **NPM**: Inicializado [package.json](file:///home/daniel/Downloads/task-scheduler/package.json) para gerenciamento de dependências.
+- **Linting & Formatting**: Configurados **ESLint** e **Prettier** para garantir qualidade e consistência do código.
+- **Testing**: Configurado **Jest** com suporte a módulos ES6 via **Babel** e ambiente **jsdom**.
+
+### Testes Automatizados
+- Implementada a suíte de testes unitários para [src/js/model.js](file:///home/daniel/Downloads/task-scheduler/src/js/model.js), cobrindo:
+  - Inicialização do modelo.
+  - Carregamento de tarefas do `localStorage`.
+  - Adição, exclusão e atualização de tarefas.
+- Todos os testes estão passando (5/5).
+
+## Resultados dos Testes
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty (5 ms)
+    ✓ should load tasks from localStorage (2 ms)
+    ✓ should add a task and save to localStorage (2 ms)
+    ✓ should delete a task and save to localStorage (2 ms)
+    ✓ should update a task and save to localStorage (2 ms)
+```
+
+## Fase 2: Melhorias no Banco de Dados
+
+### Otimização e Cache
+- **In-memory Caching**: Implementado cache privado (`_tasksCache`) no [TaskModel](file:///home/daniel/Downloads/task-scheduler/src/js/model.js#1-36).
+- **Performance**: Redução de leituras redundantes do `localStorage`.
+- **Integridade**: Persistência garantida em cada operação de escrita.
+
+## Resultados dos Testes (Fase 2)
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty
+    ✓ should load tasks from localStorage
+    ✓ should add a task and save to localStorage
+    ✓ should delete a task and save to localStorage
+    ✓ should update a task and save to localStorage
+```
+
+## Próximos Passos
+Prosseguiremos para a **Fase 3: Melhorias de Código**, focando em refatoração e validações de entrada.

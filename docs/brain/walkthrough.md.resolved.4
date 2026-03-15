@@ -1,0 +1,111 @@
+# Walkthrough - Fase 1: Preparação
+
+A primeira fase de estruturação do ambiente foi concluída com sucesso. O projeto agora possui uma base sólida para desenvolvimento modular e automatizado.
+
+## Alterações Realizadas
+
+### Configuração de Ambiente
+- **NPM**: Inicializado [package.json](file:///home/daniel/Downloads/task-scheduler/package.json) para gerenciamento de dependências.
+- **Linting & Formatting**: Configurados **ESLint** e **Prettier** para garantir qualidade e consistência do código.
+- **Testing**: Configurado **Jest** com suporte a módulos ES6 via **Babel** e ambiente **jsdom**.
+
+### Testes Automatizados
+- Implementada a suíte de testes unitários para [src/js/model.js](file:///home/daniel/Downloads/task-scheduler/src/js/model.js), cobrindo:
+  - Inicialização do modelo.
+  - Carregamento de tarefas do `localStorage`.
+  - Adição, exclusão e atualização de tarefas.
+- Todos os testes estão passando (5/5).
+
+## Resultados dos Testes
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty (5 ms)
+    ✓ should load tasks from localStorage (2 ms)
+    ✓ should add a task and save to localStorage (2 ms)
+    ✓ should delete a task and save to localStorage (2 ms)
+    ✓ should update a task and save to localStorage (2 ms)
+```
+
+## Fase 2: Melhorias no Banco de Dados
+
+### Otimização e Cache
+- **In-memory Caching**: Implementado cache privado (`_tasksCache`) no [TaskModel](file:///home/daniel/Downloads/task-scheduler/src/js/model.js#3-51).
+- **Performance**: Redução de leituras redundantes do `localStorage`.
+- **Integridade**: Persistência garantida em cada operação de escrita.
+
+## Resultados dos Testes (Fase 2)
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty
+    ✓ should load tasks from localStorage
+    ✓ should add a task and save to localStorage
+    ✓ should delete a task and save to localStorage
+    ✓ should update a task and save to localStorage
+```
+
+## Fase 3: Melhorias de Código
+
+### Refatoração e Validação
+- **Limpeza de Dados**: Implementado `trim()` em todos os campos de entrada no `View.js` para remover espaços desnecessários.
+- **Validação Robusta**: O `Controller.js` agora impede a criação de tarefas sem título ou com apenas espaços.
+- **Identificadores**: Melhorada a lógica de geração de IDs únicos.
+
+## Resultados dos Testes (Fase 3)
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty
+    ✓ should load tasks from localStorage
+    ✓ should add a task and save to localStorage
+    ✓ should delete a task and save to localStorage
+    ✓ should update a task and save to localStorage
+```
+
+## Fase 4: Melhorias de Infraestrutura
+
+### Monitoramento e Resiliência
+- **Structured Logger**: Criado utilitário centralizado para logs com timestamp e níveis (INFO, WARN, ERROR).
+- **Tratamento Global**: Captura de erros não tratados (`window.onerror`) e rejeições de promessas.
+- **Fail-safe no Model**: Adicionados blocos `try-catch` em operações críticas do `localStorage`.
+
+## Resultados dos Testes (Fase 4)
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty
+    ✓ should load tasks from localStorage
+    ✓ should add a task and save to localStorage
+    ✓ should delete a task and save to localStorage
+    ✓ should update a task and save to localStorage
+```
+
+## Fase 5: Novas Funcionalidades (Final)
+
+### Kanban Avançado e UI Premium
+- **Prioridades**: Adicionada seleção de prioridade (Baixa, Média, Alta) com tags coloridas nos cards.
+- **Barra de Busca**: Filtro global em tempo real por título e descrição.
+- **Contadores**: Exibição dinâmica da quantidade de tarefas em cada coluna.
+- **Tema Escuro**: Implementado suporte nativo a modo escuro com persistência via `localStorage`.
+- **Edição em Modal**: Fluxo de edição agora utiliza modais, permitindo atualizar tarefas sem removê-las temporariamente do Kanban.
+- **Confirmação de Ações**: Adicionada confirmação nativa para exclusão de tarefas.
+
+## Resultados Finais dos Testes
+
+```text
+ PASS  src/js/model.test.js
+  TaskModel
+    ✓ should initialize with empty tasks if localStorage is empty
+    ✓ should load tasks from localStorage
+    ✓ should add a task and save to localStorage
+    ✓ should delete a task and save to localStorage
+    ✓ should update a task and save to localStorage
+```
+
+## Conclusão
+O projeto foi transformado de um protótipo simples para uma aplicação robusta, testada e com design premium, seguindo rigorosamente o fluxo modular de 5 etapas.

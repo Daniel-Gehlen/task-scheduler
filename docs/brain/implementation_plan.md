@@ -1,0 +1,40 @@
+# Modular Enhancement Plan (5-Step Flow)
+
+This plan follows the specific logical order and Git workflow requested for the task-scheduler project.
+
+## User Review Required
+
+> [!IMPORTANT]
+> - This project will now require `npm` for development tools (Jest, ESLint, Prettier).
+> - We will follow a strict Git workflow: Branch → Feature → PR per step.
+
+## Proposed Changes
+
+### Phase 1: Preparation (Branch: `test/setup-environment`)
+- **NPM Init**: Create `package.json`.
+- **Linting & Formatting**: Install and configure ESLint & Prettier.
+- **Testing**: Install Jest and write tests for `src/js/model.js` to ensure baseline stability.
+
+### Phase 2: Database Improvements (Branch: `perf/localstorage-optimization`)
+- **Model Optimization**: Reduce redundant `JSON.parse` calls by caching tasks in memory within `TaskModel`.
+
+### Phase 3: Code Improvements (Branch: `refactor/validation-and-cleanup`)
+- **Validations**: Add robust trimming and length checks for task titles/descriptions.
+- **DRY**: Shared rendering/data-extraction logic.
+
+### Phase 4: Infrastructure (Branch: `feat/logs-and-errors`)
+- **Global Error Handler**: Catch and log errors gracefully to the console.
+- **Structured Logs**: Custom logger utility.
+
+### Phase 5: New Functionality (Branch: `feat/enhanced-kanban`)
+- **Logic**: Add Priority, Search, Task Counts, Dark Mode, and Modal-based Editing.
+
+## Verification Plan
+
+### Automated Tests
+- **Jest**: Unit tests for Model.
+- **ESLint**: Code quality check.
+
+### Manual Verification
+- Visual check of Kanban columns and new UI elements.
+- Verification of `localStorage` persistence.

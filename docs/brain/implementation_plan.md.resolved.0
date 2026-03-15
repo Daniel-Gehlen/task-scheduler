@@ -1,0 +1,50 @@
+# Task Scheduler Enhancement Plan
+
+This plan outlines several non-breaking improvements to the task-scheduler project to make it more professional, useful, and visually appealing.
+
+## User Review Required
+
+> [!IMPORTANT]
+> - **Edit Flow Change**: I propose changing the edit functionality to use a modal/dialog. Currently, it deletes the task and fills the main form, which can lead to data loss if not saved.
+> - **Data Schema Change**: Adding a `priority` field to tasks. Existing tasks will default to "Média".
+
+## Proposed Changes
+
+### UI & UX Improvements
+- **Search Bar**: Add a search input to the header to filter tasks by title/description in real-time.
+- **Task Priority**: Add a priority selector (Baixa, Média, Alta) when creating/editing tasks. Cards will show a colorful tag.
+- **Task Count Badges**: Show the number of tasks in each Kanban column header.
+- **Dark Mode**: Add a sleek dark mode toggle.
+- **Confirmation Modals**: Add a confirmation step before deleting a task.
+
+### Code Refactoring
+#### [MODIFY] [view.js](file:///home/daniel/Downloads/task-scheduler/src/js/view.js)
+- Update [renderBaseHTML](file:///home/daniel/Downloads/task-scheduler/src/js/view.js#7-58) to include search bar and dark mode toggle.
+- Update [renderTaskList](file:///home/daniel/Downloads/task-scheduler/src/js/view.js#69-101) to show priority tags and task counts.
+- Add methods for handling the search input and priority selection.
+- Implement a simple modal for editing.
+
+#### [MODIFY] [controller.js](file:///home/daniel/Downloads/task-scheduler/src/js/controller.js)
+- Add `handleSearch` logic.
+- Update [handleEditTask](file:///home/daniel/Downloads/task-scheduler/src/js/controller.js#58-69) to use the new modal/update flow.
+- Update [handleDrop](file:///home/daniel/Downloads/task-scheduler/src/js/controller.js#90-94) to maintain priority and other data.
+
+#### [MODIFY] [model.js](file:///home/daniel/Downloads/task-scheduler/src/js/model.js)
+- Ensure [updateTask](file:///home/daniel/Downloads/task-scheduler/src/js/model.js#24-31) is used correctly for edits instead of delete+add.
+
+#### [MODIFY] [style.css](file:///home/daniel/Downloads/task-scheduler/src/css/style.css)
+- Add styles for priority tags, search bar, dark mode, and modals.
+- Enhance animations and transitions for a "premium" feel.
+
+## Verification Plan
+
+### Automated Tests
+- This project doesn't have a test suite yet. I will manually verify all features.
+
+### Manual Verification
+1. **Search**: Type in the search bar and verify tasks filter instantly.
+2. **Priority**: Create a task with "Alta" priority and check if the red tag appears.
+3. **Edit**: Edit a task title and verify it updates in the column without changing its position (unless status changed).
+4. **Drag and Drop**: Verify tasks can still be moved between columns.
+5. **Persistence**: Refresh the page and ensure all tasks (with priorities) and the theme preference are saved.
+6. **Dark Mode**: Toggle theme and verify all elements adapt correctly.
