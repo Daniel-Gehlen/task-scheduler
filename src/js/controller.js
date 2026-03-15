@@ -19,8 +19,12 @@ export default class TaskController {
 
   handleAddTask() {
     const taskData = this.view.getFormData();
-    if (!taskData.title || !taskData.dueDate) {
-      alert("Título e data são obrigatórios!");
+    if (!taskData.title || taskData.title.length === 0) {
+      alert('O título da tarefa não pode estar vazio!');
+      return;
+    }
+    if (!taskData.dueDate) {
+      alert('A data de entrega é obrigatória!');
       return;
     }
     this.model.addTask(taskData);

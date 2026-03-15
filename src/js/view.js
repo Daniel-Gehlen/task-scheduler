@@ -101,11 +101,11 @@ export default class TaskView {
 
   getFormData() {
     return {
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-      title: document.getElementById('task-title').value,
-      description: document.getElementById('task-description').value,
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2),
+      title: document.getElementById('task-title').value.trim(),
+      description: document.getElementById('task-description').value.trim(),
       dueDate: document.getElementById('task-due-date').value,
-      status: document.getElementById('task-status').value
+      status: document.getElementById('task-status').value,
     };
   }
 
