@@ -1,4 +1,7 @@
 import TaskModel from './model';
+import Logger from './utils/logger';
+
+jest.mock('./utils/logger');
 
 describe('TaskModel', () => {
   beforeEach(() => {

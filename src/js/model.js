@@ -1,3 +1,5 @@
+import Logger from './utils/logger.js';
+
 export default class TaskModel {
   constructor() {
     this._tasksCache = this.loadTasks();
@@ -8,11 +10,24 @@ export default class TaskModel {
   }
 
   loadTasks() {
-    return JSON.parse(localStorage.getItem('tasks')) || [];
+    try {
+      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      Logger.info('Tarefas carregadas com sucesso', { count: tasks.length });
+      return tasks;
+    } catch (error) {
+      Logger.error('Erro ao carregar tarefas do localStorage', { error: error.message });
+      return [];
+    }
   }
 
   saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this._tasksCache));
+    try {
+      localStorage.setItem('tasks', JSON.stringify(this._tasksCache));
+      Logger.info('Tarefas salvas com sucesso');
+    } catch (error) {
+      Logger.error('Erro ao salvar tarefas no localStorage', { error: error.message });
+      alert('Não foi possível salvar as tarefas. O armazenamento local pode estar cheio.');
+    }
   }
 
   addTask(task) {
