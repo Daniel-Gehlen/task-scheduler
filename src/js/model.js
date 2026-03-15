@@ -1,6 +1,10 @@
 export default class TaskModel {
   constructor() {
-    this.tasks = this.loadTasks();
+    this._tasksCache = this.loadTasks();
+  }
+
+  get tasks() {
+    return this._tasksCache;
   }
 
   loadTasks() {
@@ -8,23 +12,23 @@ export default class TaskModel {
   }
 
   saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    localStorage.setItem('tasks', JSON.stringify(this._tasksCache));
   }
 
   addTask(task) {
-    this.tasks.push(task);
+    this._tasksCache.push(task);
     this.saveTasks();
   }
 
   deleteTask(id) {
-    this.tasks = this.tasks.filter(task => task.id !== id);
+    this._tasksCache = this._tasksCache.filter((task) => task.id !== id);
     this.saveTasks();
   }
 
   updateTask(id, newData) {
-    const taskIndex = this.tasks.findIndex(task => task.id === id);
+    const taskIndex = this._tasksCache.findIndex((task) => task.id === id);
     if (taskIndex !== -1) {
-      this.tasks[taskIndex] = { ...this.tasks[taskIndex], ...newData };
+      this._tasksCache[taskIndex] = { ...this._tasksCache[taskIndex], ...newData };
       this.saveTasks();
     }
   }
