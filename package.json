@@ -1,0 +1,34 @@
+{
+  "name": "task-scheduler",
+  "version": "1.0.0",
+  "description": "**Um estudo de caso em arquitetura frontend modular sem frameworks**",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/js",
+    "format": "prettier --write src/js"
+  },
+  "jest": {
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "babel-jest": "^30.3.0",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "prettier": "^3.8.1"
+  }
+}
