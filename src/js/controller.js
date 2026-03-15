@@ -72,6 +72,24 @@ export default class TaskController {
           <label>Descrição:</label>
           <textarea id="edit-description" rows="3">${task.description || ''}</textarea>
         </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Prioridade:</label>
+            <select id="edit-priority">
+              <option value="low" ${task.priority === 'low' ? 'selected' : ''}>Baixa</option>
+              <option value="medium" ${task.priority === 'medium' || !task.priority ? 'selected' : ''}>Média</option>
+              <option value="high" ${task.priority === 'high' ? 'selected' : ''}>Alta</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status:</label>
+            <select id="edit-status">
+              <option value="pending" ${task.status === 'pending' ? 'selected' : ''}>Pendente</option>
+              <option value="in-progress" ${task.status === 'in-progress' ? 'selected' : ''}>Em Progresso</option>
+              <option value="completed" ${task.status === 'completed' ? 'selected' : ''}>Concluído</option>
+            </select>
+          </div>
+        </div>
         <div class="form-actions">
           <button id="update-task-btn" class="add-btn">Atualizar</button>
         </div>
@@ -81,8 +99,11 @@ export default class TaskController {
       document.getElementById('update-task-btn').onclick = () => {
         const title = document.getElementById('edit-title').value.trim();
         const description = document.getElementById('edit-description').value.trim();
+        const priority = document.getElementById('edit-priority').value;
+        const status = document.getElementById('edit-status').value;
+        
         if (title) {
-          this.model.updateTask(id, { title, description });
+          this.model.updateTask(id, { title, description, priority, status });
           this.view.renderTasks(this.model.tasks);
           this.view.closeModal();
         } else {
@@ -134,7 +155,7 @@ export default class TaskController {
   }
 
   handleDrop(id, newStatus) {
-    this.model.updateTask(id, { status: newStatus.replace(" ", "-") });
+    this.model.updateTask(id, { status: newStatus });
     this.view.renderTasks(this.model.tasks);
   }
 

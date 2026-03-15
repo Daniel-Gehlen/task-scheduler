@@ -112,6 +112,11 @@ export default class TaskView {
     document.getElementById('pending-count').textContent = pendingTasks.length;
     document.getElementById('in-progress-count').textContent = inProgressTasks.length;
     document.getElementById('completed-count').textContent = completedTasks.length;
+
+    // Re-inicializar drag and drop após renderizar novas tarefas
+    if (this._onDropHandler) {
+      this.setupDragAndDrop(this._onDropHandler);
+    }
   }
 
   renderTaskList(containerId, tasks) {
@@ -271,6 +276,7 @@ export default class TaskView {
   }
 
   setupDragAndDrop(onDrop) {
+    this._onDropHandler = onDrop;
     const tasks = document.querySelectorAll('.task');
     const columns = document.querySelectorAll('.column .tasks');
 
@@ -298,10 +304,11 @@ export default class TaskView {
         }
       });
 
-      column.addEventListener('drop', () => {
+      column.addEventListener('drop', (e) => {
+        e.preventDefault();
         const draggingTask = document.querySelector('.dragging');
         if (draggingTask) {
-          const newStatus = column.parentElement.id.replace('-column', '').replace('-', ' ');
+          const newStatus = column.id.replace('-tasks', '');
           onDrop(draggingTask.dataset.id, newStatus);
         }
       });
